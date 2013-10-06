@@ -9,4 +9,8 @@ public class LineParserImpl implements LineParser {
         return null;
     }
 
+    public void setRegularExpression(String regex) {
+
+    }
+
 }
