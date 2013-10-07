@@ -45,12 +45,6 @@ public class UrlFetcher {
     }
 
     public void fetchUrl() throws IOException {
-        if (!isFinished()) {
-            fetchNextUrl();
-        }
-    }
-
-    private void fetchNextUrl() throws IOException {
         setUrl(todoUrls.remove());
         initBufferedReader();
         while (nextLine()) {
