@@ -46,6 +46,7 @@ public class UrlFetcher {
 
     public void fetchUrl() throws IOException {
         setUrl(todoUrls.remove());
+        System.out.println("fetchUrl: " + getUrl());
         initBufferedReader();
         while (nextLine()) {
             List<URL> links = lineParser.extractUrl(inputLine);
@@ -63,7 +64,7 @@ public class UrlFetcher {
 
     private boolean nextLine() throws IOException {
         inputLine = in.readLine();
-        return (inputLine == null);
+        return !(inputLine == null);
     }
 
 }
