@@ -16,7 +16,8 @@ public class LineParserImpl implements LineParser {
         Matcher m = regPattern.matcher(line);
         while (m.find()) {
             try {
-                URL url = new URL(m.group());
+                System.out.println("Converting string to URL: " + m.group(1));
+                URL url = new URL(m.group(1));
                 links.add(url);
             } catch (MalformedURLException e) {
             }
