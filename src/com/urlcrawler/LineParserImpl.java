@@ -13,6 +13,7 @@ public class LineParserImpl implements LineParser {
     private List<URL> links = new ArrayList<URL>();
 
     public List<URL> extractUrl(String line) {
+        links.clear();
         Matcher m = regPattern.matcher(line);
         while (m.find()) {
             try {
