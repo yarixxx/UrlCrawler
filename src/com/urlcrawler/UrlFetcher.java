@@ -55,14 +55,25 @@ public class UrlFetcher {
                 counter += links.size();
             }
         }
-        in.close();
+        if (in != null) {
+            in.close();
+        }
     }
 
     private void initBufferedReader() throws IOException {
-        in = new BufferedReader(new InputStreamReader(getUrl().openStream()));
+        try {
+            in = new BufferedReader(
+                    new InputStreamReader(getUrl().openStream()));
+        } catch (IOException e) {
+            in = null;
+            System.out.println("Failed to load url: " + getUrl());
+        }
     }
 
     private boolean nextLine() throws IOException {
+        if (in == null) {
+            return false;
+        }
         inputLine = in.readLine();
         return !(inputLine == null);
     }
