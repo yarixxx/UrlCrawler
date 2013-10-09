@@ -11,7 +11,7 @@ import java.util.Queue;
 public class UrlCrawler {
     private final static String CONFIG_FILE = "config.properties";
     private static Integer urlLimit;
-    private static Integer counter = 1;
+    private static UrlCounter counter;
     private static URL startUrl;
     private static Queue<URL> todoUrls = new LinkedList<URL>();
     private static UrlFetcher urlFetcher;
@@ -20,12 +20,20 @@ public class UrlCrawler {
 
     public static void main(String[] args) throws Exception {
         initConfiguration();
+
+        initUrlCounter();
+
         todoUrls.add(startUrl);
         lineParser = new LineParserImpl();
         lineParser.setRegularExpression(urlRegEx);
 
         initFetcher();
         startLoop();
+    }
+
+    private static void initUrlCounter() {
+        counter = new UrlCounterImpl();
+        counter.setValue(1);
     }
 
     private static void initConfiguration() throws FileNotFoundException,

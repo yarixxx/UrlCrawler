@@ -12,7 +12,7 @@ public class UrlFetcher {
     private BufferedReader in;
     private String inputLine;
     private Queue<URL> todoUrls;
-    private Integer counter;
+    private UrlCounter counter;
     private Integer limit;
     private LineParserImpl lineParser;
 
@@ -21,14 +21,14 @@ public class UrlFetcher {
     }
 
     public boolean isFinished() {
-        return todoUrls.isEmpty() || counter > limit;
+        return todoUrls.isEmpty() || counter.getValue() > limit;
     }
 
     public void setLimit(Integer limit) {
         this.limit = limit;
     }
 
-    public void setCounter(Integer counter) {
+    public void setCounter(UrlCounter counter) {
         this.counter = counter;
     }
 
@@ -52,7 +52,7 @@ public class UrlFetcher {
             List<URL> links = lineParser.extractUrl(inputLine);
             if (!links.isEmpty()) {
                 todoUrls.addAll(links);
-                counter += links.size();
+                counter.addValue(links.size());
             }
         }
         if (in != null) {

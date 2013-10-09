@@ -1,6 +1,8 @@
 package com.urlcrawler;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,7 +38,9 @@ public class TestUrlFetcher {
     }
 
     private void givenCounterIsTenAndLimitIsFive() {
-        urlFetcher.setCounter(10);
+        UrlCounter counter = mock(UrlCounter.class);
+        when(counter.getValue()).thenReturn(10);
+        urlFetcher.setCounter(counter);
         urlFetcher.setLimit(5);
     }
 
