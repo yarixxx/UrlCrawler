@@ -20,12 +20,10 @@ public class UrlCrawler {
 
     public static void main(String[] args) throws Exception {
         initConfiguration();
-
+        initLineParser();
         initUrlCounter();
 
         todoUrls.add(startUrl);
-        lineParser = new LineParserImpl();
-        lineParser.setRegularExpression(urlRegEx);
 
         initFetcher();
         startLoop();
@@ -34,6 +32,11 @@ public class UrlCrawler {
     private static void initUrlCounter() {
         counter = new UrlCounterImpl();
         counter.setValue(1);
+    }
+
+    private static void initLineParser() {
+        lineParser = new LineParserImpl();
+        lineParser.setRegularExpression(urlRegEx);
     }
 
     private static void initConfiguration() throws FileNotFoundException,
