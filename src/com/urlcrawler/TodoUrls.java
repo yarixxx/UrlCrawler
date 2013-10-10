@@ -9,4 +9,6 @@ public interface TodoUrls {
     public void addUrls(List<URL> links);
 
     public URL nextUrl();
+
+    public Boolean isEmpty();
 }

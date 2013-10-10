@@ -31,4 +31,9 @@ public class TodoUrlsImpl implements TodoUrls {
         return links.poll();
     }
 
+    @Override
+    public Boolean isEmpty() {
+        return links.isEmpty();
+    }
+
 }
