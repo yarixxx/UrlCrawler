@@ -5,9 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,9 +42,9 @@ public class TestUrlFetcher {
     }
 
     private void givenTodoUrlsListIsNotEmpty() throws MalformedURLException {
-        Queue<URL> links = new LinkedList<URL>();
-        links.add(new URL("http://y3x.ru/"));
-        urlFetcher.setTodoUrls(links);
+        TodoUrls todoUrls = mock(TodoUrls.class);
+        when(todoUrls.isEmpty()).thenReturn(false);
+        urlFetcher.setTodoUrls(todoUrls);
     }
 
     private void thenUrlFetcherWasFinished() {
@@ -55,7 +52,9 @@ public class TestUrlFetcher {
     }
 
     private void givenTodoUrlsListIsEmpty() {
-        urlFetcher.setTodoUrls(new LinkedList<URL>());
+        TodoUrls todoUrls = mock(TodoUrls.class);
+        when(todoUrls.isEmpty()).thenReturn(true);
+        urlFetcher.setTodoUrls(todoUrls);
     }
 
     private void whenIsFinishedCalled() {

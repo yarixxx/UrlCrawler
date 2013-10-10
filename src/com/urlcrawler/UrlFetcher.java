@@ -5,13 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
-import java.util.Queue;
 
 public class UrlFetcher {
     private URL url;
     private BufferedReader in;
     private String inputLine;
-    private Queue<URL> todoUrls;
+    private TodoUrls todoUrls;
     private UrlCounter counter;
     private Integer limit;
     private LineParserImpl lineParser;
@@ -32,7 +31,7 @@ public class UrlFetcher {
         this.counter = counter;
     }
 
-    public void setTodoUrls(Queue<URL> todoUrls) {
+    public void setTodoUrls(TodoUrls todoUrls) {
         this.todoUrls = todoUrls;
     }
 
@@ -45,13 +44,13 @@ public class UrlFetcher {
     }
 
     public void fetchUrl() throws IOException {
-        setUrl(todoUrls.remove());
+        setUrl(todoUrls.nextUrl());
         System.out.println("fetchUrl: " + getUrl());
         initBufferedReader();
         while (nextLine()) {
             List<URL> links = lineParser.extractUrl(inputLine);
             if (!links.isEmpty()) {
-                todoUrls.addAll(links);
+                todoUrls.addUrls(links);
                 counter.addValue(links.size());
             }
         }

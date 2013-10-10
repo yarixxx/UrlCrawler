@@ -4,16 +4,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.Properties;
-import java.util.Queue;
 
 public class UrlCrawler {
     private final static String CONFIG_FILE = "config.properties";
     private static Integer urlLimit;
     private static UrlCounter counter;
     private static URL startUrl;
-    private static Queue<URL> todoUrls = new LinkedList<URL>();
+    private static TodoUrls todoUrls;
     private static UrlFetcher urlFetcher;
     private static LineParserImpl lineParser;
     private static String urlRegEx;
@@ -22,11 +20,16 @@ public class UrlCrawler {
         initConfiguration();
         initLineParser();
         initUrlCounter();
+        initTodoUrls();
 
-        todoUrls.add(startUrl);
+        todoUrls.addUrl(startUrl);
 
         initFetcher();
         startLoop();
+    }
+
+    private static void initTodoUrls() {
+        todoUrls = new TodoUrlsImpl();
     }
 
     private static void initUrlCounter() {
