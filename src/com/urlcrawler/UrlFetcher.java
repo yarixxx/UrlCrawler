@@ -2,20 +2,19 @@ package com.urlcrawler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
 
 public class UrlFetcher {
     private URL url;
-    private BufferedReader in;
+    private BufferedReader bufferedReader;
     private String inputLine;
     private TodoUrls todoUrls;
     private UrlCounter counter;
     private Integer limit;
-    private LineParserImpl lineParser;
+    private LineParser lineParser;
 
-    public void setLineParser(LineParserImpl lineParser) {
+    public void setLineParser(LineParser lineParser) {
         this.lineParser = lineParser;
     }
 
@@ -43,7 +42,7 @@ public class UrlFetcher {
         return url;
     }
 
-    public void fetchUrl() throws IOException {
+    public void fetchUrl() {
         setUrl(todoUrls.nextUrl());
         System.out.println("fetchUrl: " + getUrl());
         initBufferedReader();
@@ -54,26 +53,34 @@ public class UrlFetcher {
                 counter.addValue(links.size());
             }
         }
-        if (in != null) {
-            in.close();
+        if (bufferedReader != null) {
+            try {
+                bufferedReader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void initBufferedReader() throws IOException {
+    private void initBufferedReader() {
         try {
-            in = new BufferedReader(
-                    new InputStreamReader(getUrl().openStream()));
+            bufferedReader = BufferReaderFactory.getNewBufferReader(getUrl());
         } catch (IOException e) {
-            in = null;
+            bufferedReader = null;
             System.out.println("Failed to load url: " + getUrl());
+            e.printStackTrace();
         }
     }
 
-    private boolean nextLine() throws IOException {
-        if (in == null) {
+    private boolean nextLine() {
+        if (bufferedReader == null) {
             return false;
         }
-        inputLine = in.readLine();
+        try {
+            inputLine = bufferedReader.readLine();
+        } catch (IOException e) {
+            System.out.println("Error while reading url: " + e.getMessage());
+        }
         return !(inputLine == null);
     }
 
