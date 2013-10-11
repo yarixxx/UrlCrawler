@@ -19,11 +19,8 @@ public class TestUrlFetcher {
     private TodoUrls todoUrls;
     private LineParser lineParser;
     private UrlCounter counter;
-    private BufferReaderFactory bufferReaderFactory;
 
     private URL url;
-
-    // TodoUrls
 
     @Before
     public void setUp() throws Exception {
@@ -31,7 +28,6 @@ public class TestUrlFetcher {
         todoUrls = mock(TodoUrls.class);
         lineParser = mock(LineParser.class);
         counter = mock(UrlCounter.class);
-        bufferReaderFactory = mock(BufferReaderFactory.class);
     }
 
     @Test
@@ -56,7 +52,6 @@ public class TestUrlFetcher {
         givenLineParser();
         whenFetchUrlCalled();
         verify(todoUrls).nextUrl();
-        // verify(BufferReaderFactory.class).getNewBufferReader(url);
     }
 
     private void givenLineParser() {
