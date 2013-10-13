@@ -1,16 +1,17 @@
 package com.urlcrawler;
 
 import java.net.URL;
-import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Queue;
+import java.util.Set;
 
 public class TodoUrlsImpl implements TodoUrls {
 
-    Queue<URL> links;
+    Set<URL> links;
 
     TodoUrlsImpl() {
-        links = new LinkedList<URL>();
+        links = new LinkedHashSet<URL>();
     }
 
     @Override
@@ -28,7 +29,8 @@ public class TodoUrlsImpl implements TodoUrls {
 
     @Override
     public URL nextUrl() {
-        return links.poll();
+        Iterator<URL> i = links.iterator();
+        return i.next();
     }
 
     @Override
