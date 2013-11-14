@@ -1,0 +1,44 @@
+<project name="UrlCrawler" default="test">
+ 
+  <property name="src" location="src"/>
+  <property name="build" location="bin"/>
+  <property name="test"  location="tests"/>
+  <property name="junit" location="lib/junit.jar"/>
+  <property name="mockito" location="lib/mockito-all-1.9.5.jar"/>
+ 
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${build}"/>
+  </target>
+ 
+  <target name="compile" depends="init">
+    <javac srcdir="${src}" destdir="${build}"/>
+    <javac srcdir="${test}" destdir="${build}">
+      <classpath>
+        <pathelement path="${junit}"/>
+        <pathelement path="${mockito}"/>
+        <pathelement path="${build}"/>
+      </classpath>
+    </javac>
+  </target>
+ 
+  <target name="test" depends="compile">
+    <junit fork="yes" haltonfailure="true">
+      <classpath>
+        <pathelement path="${junit}"/>
+        <pathelement path="${mockito}"/>
+        <pathelement path="${build}"/>
+      </classpath>
+      <batchtest fork="yes" todir="tres">
+        <formatter type="brief" usefile="false"/>
+        <fileset dir="${test}">
+          <include name="**/*Test*.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+ 
+  <target name="clean">
+    <delete dir="${build}"/>
+  </target>
+</project>
