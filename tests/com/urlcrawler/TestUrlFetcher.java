@@ -20,7 +20,7 @@ public class TestUrlFetcher {
     private LineParser lineParser;
     private UrlCounter counter;
 
-    private URL url;
+    private UrlItem url;
 
     @Before
     public void setUp() throws Exception {
@@ -65,7 +65,7 @@ public class TestUrlFetcher {
     }
 
     private void givenTodoUrlsWithOneUrl() throws MalformedURLException {
-        url = new URL("http://y3x.ru/");
+        url = new UrlItem(new URL("http://y3x.ru/"), UrlItem.Status.WAITING);
         when(todoUrls.nextUrl()).thenReturn(url);
         urlFetcher.setTodoUrls(todoUrls);
     }

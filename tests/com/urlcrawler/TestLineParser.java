@@ -14,7 +14,7 @@ public class TestLineParser {
     private LineParser lineParser;
     private final static String LINE_WITH_URL = "some stuff http://y3x.ru/ some more";
     private static final String REGULAR_EXPRESSION = "[\\s'\"](http://[\\S]*)[\\s'\"]";
-    List<URL> links;
+    List<UrlItem> links;
 
     @Before
     public void setUp() throws Exception {
@@ -38,7 +38,7 @@ public class TestLineParser {
 
     private void thenOneUrlExtracted() throws MalformedURLException {
         assertEquals(1, links.size());
-        assertEquals(new URL("http://y3x.ru/"), links.get(0));
+        assertEquals(new URL("http://y3x.ru/"), links.get(0).getLink());
 
     }
 

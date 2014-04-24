@@ -2,11 +2,11 @@ package com.urlcrawler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URL;
+import java.net.ConnectException;
 import java.util.List;
 
 public class UrlFetcher {
-    private URL url;
+    private UrlItem url;
     private BufferedReader bufferedReader;
     private String inputLine;
     private TodoUrls todoUrls;
@@ -34,20 +34,25 @@ public class UrlFetcher {
         this.todoUrls = todoUrls;
     }
 
-    public void setUrl(URL url) {
+    public void setUrl(UrlItem url) {
         this.url = url;
+        this.url.setStatus(UrlItem.Status.WORKING);
     }
 
-    public URL getUrl() {
+    public UrlItem getUrl() {
         return url;
     }
 
     public void fetchUrl() {
-        setUrl(todoUrls.nextUrl());
+        UrlItem urlItem = todoUrls.nextUrl();
+        if (!urlItem.getStatus().equals(UrlItem.Status.WAITING)) {
+            return;
+        }
+        setUrl(urlItem);
         System.out.println("fetchUrl: " + getUrl());
         initBufferedReader();
         while (nextLine()) {
-            List<URL> links = lineParser.extractUrl(inputLine);
+            List<UrlItem> links = lineParser.extractUrl(inputLine);
             if (!links.isEmpty()) {
                 todoUrls.addUrls(links);
                 counter.addValue(links.size());
@@ -60,13 +65,18 @@ public class UrlFetcher {
                 e.printStackTrace();
             }
         }
+        url.setStatus(UrlItem.Status.FINISHED);
     }
 
     private void initBufferedReader() {
         try {
             bufferedReader = BufferReaderFactory.getNewBufferReader(getUrl());
+        } catch (ConnectException e) {
+            url.setStatus(UrlItem.Status.FAILED);
+            System.out.println("Connection failed: " + getUrl());
         } catch (IOException e) {
             bufferedReader = null;
+            url.setStatus(UrlItem.Status.FAILED);
             System.out.println("Failed to load url: " + getUrl());
             e.printStackTrace();
         }

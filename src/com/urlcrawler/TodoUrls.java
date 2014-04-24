@@ -1,14 +1,13 @@
 package com.urlcrawler;
 
-import java.net.URL;
 import java.util.List;
 
 public interface TodoUrls {
-    public void addUrl(URL link);
+    public void addUrl(UrlItem link);
 
-    public void addUrls(List<URL> links);
+    public void addUrls(List<UrlItem> links);
 
-    public URL nextUrl();
+    public UrlItem nextUrl();
 
     public Boolean isEmpty();
 }

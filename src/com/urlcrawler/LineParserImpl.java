@@ -10,15 +10,15 @@ import java.util.regex.Pattern;
 public class LineParserImpl implements LineParser {
 
     private Pattern regPattern;
-    private List<URL> links = new ArrayList<URL>();
+    private List<UrlItem> links = new ArrayList<UrlItem>();
 
-    public List<URL> extractUrl(String line) {
+    public List<UrlItem> extractUrl(String line) {
         links.clear();
         Matcher m = regPattern.matcher(line);
         while (m.find()) {
             try {
                 System.out.println("Converting string to URL: " + m.group(1));
-                URL url = new URL(m.group(1));
+                UrlItem url = new UrlItem(new URL(m.group(1)), UrlItem.Status.WAITING);
                 links.add(url);
             } catch (MalformedURLException e) {
             }

@@ -12,15 +12,15 @@ import org.junit.Test;
 public class TestTodoUrlsImpl {
 
     private TodoUrls todoUrls;
-    private URL firstLink;
-    private URL secondLink;
-    private URL actualLink;
+    private UrlItem firstLink;
+    private UrlItem secondLink;
+    private UrlItem actualLink;
 
     @Before
     public void setUp() throws Exception {
         todoUrls = new TodoUrlsImpl();
-        firstLink = new URL("http://firstlink.com");
-        secondLink = new URL("http://secondlink.com");
+        firstLink = new UrlItem(new URL("http://firstlink.com"), UrlItem.Status.WAITING);
+        secondLink = new UrlItem(new URL("http://secondlink.com"), UrlItem.Status.WAITING);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class TestTodoUrlsImpl {
     }
 
     private void givenUrlsList() {
-        List<URL> links = new LinkedList<URL>();
+        List<UrlItem> links = new LinkedList<UrlItem>();
         links.add(firstLink);
         links.add(secondLink);
         todoUrls.addUrls(links);

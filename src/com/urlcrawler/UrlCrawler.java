@@ -10,7 +10,7 @@ public class UrlCrawler {
     private final static String CONFIG_FILE = "config.properties";
     private static Integer urlLimit;
     private static UrlCounter counter;
-    private static URL startUrl;
+    private static UrlItem startUrl;
     private static TodoUrls todoUrls;
     private static UrlFetcher urlFetcher;
     private static LineParserImpl lineParser;
@@ -46,7 +46,7 @@ public class UrlCrawler {
             IOException {
         Properties properties = new Properties();
         properties.load(new FileInputStream(CONFIG_FILE));
-        startUrl = new URL(properties.getProperty("startUrl"));
+        startUrl = new UrlItem(new URL(properties.getProperty("startUrl")), UrlItem.Status.WAITING);
         urlLimit = Integer.parseInt(properties.getProperty("urlLimit"));
         urlRegEx = properties.getProperty("urlRegEx");
     }
